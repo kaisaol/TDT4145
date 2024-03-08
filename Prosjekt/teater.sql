@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS Billett (
             ON UPDATE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS BillettType (
-    KundegruppeID INTEGER NOT NULL,
+CREATE TABLE IF NOT EXISTS Kundegruppe (
+    KundegruppeID TEXT NOT NULL,
     PRIMARY KEY (KundegruppeID)
 );
 
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS RolleIAkt (
 );
 
 CREATE TABLE IF NOT EXISTS TypeBillett (
-    KundegruppeID INTEGER NOT NULL,
+    KundegruppeID TEXT NOT NULL,
     StykkeID INTEGER NOT NULL,
     Prist FLOAT NOT NULL,
     PRIMARY KEY (KundegruppeID, StykkeID),
