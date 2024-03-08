@@ -214,7 +214,7 @@ CREATE TABLE IF NOT EXISTS RolleIAkt (
 CREATE TABLE IF NOT EXISTS TypeBillett (
     KundegruppeID TEXT NOT NULL,
     StykkeID INTEGER NOT NULL,
-    Prist FLOAT NOT NULL,
+    Pris FLOAT NOT NULL,
     PRIMARY KEY (KundegruppeID, StykkeID),
     FOREIGN KEY (StykkeID)
         REFERENCES Teaterstykke (StykkeID)
