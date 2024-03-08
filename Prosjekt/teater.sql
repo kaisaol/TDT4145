@@ -40,7 +40,6 @@ CREATE TABLE IF NOT EXISTS Billett (
 
 CREATE TABLE IF NOT EXISTS BillettType (
     KundegruppeID INTEGER NOT NULL,
-    GruppeNavn TEXT NOT NULL,
     PRIMARY KEY (KundegruppeID)
 );
 
