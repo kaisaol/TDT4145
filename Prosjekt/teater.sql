@@ -1,13 +1,3 @@
-CREATE TABLE IF NOT EXISTS BilettKjøp (
-    ReferanseNr INTEGER NOT NULL,
-    Tidspunkt DATETIME NOT NULL,
-    PRIMARY KEY (ReferanseNr),
-    FOREIGN KEY (KundeNr)
-        REFERENCES Kunde (KundeNr)
-            ON DELETE CASCADE
-            ON UPDATE NO ACTION
-);
-
 CREATE TABLE IF NOT EXISTS Kunde (
     KundeNr INTEGER NOT NULL,
     TelefonNr INTEGER NOT NULL,
@@ -15,21 +5,31 @@ CREATE TABLE IF NOT EXISTS Kunde (
     Adresse TEXT NOT NULL,
     PRIMARY KEY (KundeNr)
 );
+CREATE TABLE IF NOT EXISTS BilettKjop (
+    ReferanseNr INTEGER NOT NULL,
+    Tidspunkt DATETIME NOT NULL,
+	KundeNr INTEGER NOT NULL,
+    PRIMARY KEY (ReferanseNr),
+    FOREIGN KEY (KundeNr)
+        REFERENCES Kunde (KundeNr)
+            ON DELETE CASCADE
+            ON UPDATE NO ACTION
+);
 
 CREATE TABLE IF NOT EXISTS Billett (
     BillettID INTEGER NOT NULL,
     ReferanseNr INTEGER NOT NULL,
     StolNr INTEGER NOT NULL,
     RadNr INTEGER NOT NULL,
-    Område TEXT NOT NULL,
+    Omrade TEXT NOT NULL,
     SalID INTEGER NOT NULL,
     PRIMARY KEY (BillettID),
     FOREIGN KEY (ReferanseNr)
-        REFERENCES BilettKjøp (ReferanseNr)
+        REFERENCES BilettKjop (ReferanseNr)
             ON DELETE CASCADE
             ON UPDATE NO ACTION,
-    FOREIGN KEY (StolNr, RadNr, Område)
-        REFERENCES Stol (StolNr, RadNr, Område)
+    FOREIGN KEY (StolNr, RadNr, Omrade)
+        REFERENCES Stol (StolNr, RadNr, Omrade)
             ON DELETE CASCADE
             ON UPDATE NO ACTION,
     FOREIGN KEY (SalID)
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS Kundegruppe (
 CREATE TABLE IF NOT EXISTS Stol (
     StolNr INTEGER NOT NULL,
     RadNr INTEGER NOT NULL,
-    Område TEXT NOT NULL,
+    Omrade TEXT NOT NULL,
     SalID INTEGER NOT NULL,
-    PRIMARY KEY (StolNr, RadNr, Område, SalID),
+    PRIMARY KEY (StolNr, RadNr, Omrade, SalID),
     FOREIGN KEY (SalID)
         REFERENCES Teatersal (SalID)
             ON DELETE CASCADE
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS Sesong (
     StartDato DATE NOT NULL,
     SluttDato DATE NOT NULL,
     TeaterID INTEGER NOT NULL,
-    PRIMARY KEY (SesongID, TeaterID),
+    PRIMARY KEY (StartDato, TeaterID),
     FOREIGN KEY (TeaterID)
         REFERENCES Teater (TeaterID)
             ON DELETE CASCADE
@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS Skuespillere (
 CREATE TABLE IF NOT EXISTS RolleIAkt (
     StykkeID INTEGER NOT NULL,
     AktNr INTEGER NOT NULL,
-    RolleID INTEGER NOT NULL,,
+    RolleID INTEGER NOT NULL,
     PRIMARY KEY (StykkeID, AktNr, RolleID),
     FOREIGN KEY (StykkeID)
         REFERENCES Teaterstykke (StykkeID)
