@@ -79,11 +79,12 @@ CREATE TABLE IF NOT EXISTS Teater (
             ON UPDATE NO ACTION
 );
 
+"Endret TelefonNr og Epost til aa kunne ha NULL-verdier, da dette ikke var tilgjeng"
 CREATE TABLE IF NOT EXISTS Ansatt (
     AnsattID INTEGER NOT NULL,
     Navn TEXT NOT NULL,
-    TelefonNr INTEGER NOT NULL,
-    Epost TEXT NOT NULL,
+    TelefonNr INTEGER,
+    Epost TEXT,
     Jobbstatus TEXT NOT NULL,
     Stillingstittel TEXT NOT NULL,
     PRIMARY KEY (AnsattID)
@@ -161,7 +162,8 @@ CREATE TABLE IF NOT EXISTS TeaterOppgaver (
             ON UPDATE NO ACTION,
     FOREIGN KEY (OppgaveID)
         REFERENCES Oppgave (OppgaveID)
-            
+            ON DELETE CASCADE
+            ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS DelegerteOppgaver (
