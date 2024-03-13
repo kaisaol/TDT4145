@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS Teaterstykke (
 
 CREATE TABLE IF NOT EXISTS Akt (
     AktNr INTEGER NOT NULL,
-    Navn TEXT NOT NULL,
+    Navn TEXT,
     StykkeID INTEGER NOT NULL,
     PRIMARY KEY (AktNr, StykkeID),
     FOREIGN KEY (StykkeID)
