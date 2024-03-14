@@ -44,7 +44,7 @@ hensyn til selve betalingen, den antar vi skjer på et annet system som dere
 ikke trenger å lage. Denne funksjonen skal implementeres i Python og SQL.
 
 **Løsning**  
-Vi har løst brukerhistorien i [tog.py](./Prosjekt/teater.py)-filen. Ved å kjøre filen og skrive inn 'S' for 'Vis stasjoner'. Etter vil man få skrevet ut alle togstasjoner. Man får så valget om å skrive inn en togstasjon og en dag. 
+Vi har løst brukerhistorien i [teater.py](./Prosjekt/teater.py)-filen. Ved å kjøre filen og skrive inn 'S' for 'Vis stasjoner'. Etter vil man få skrevet ut alle togstasjoner. Man får så valget om å skrive inn en togstasjon og en dag. 
 
 ----
 ### **Brukstilfelle 4**
@@ -54,7 +54,7 @@ en dato og skriver ut hvilke forestillinger som finnes på denne datoen og liste
 opp hvor mange billetter (dvs. stoler) som er solgt. Ta også med forestillinger
 hvor det ikke er solgt noen billetter.
 **Løsning**  
-Vi har løst brukerhistorien i [tog.py](./Prosjekt/teater.py)-filen. Ved å kjøre filen og skrive inn 'T' for 'Søk etter togruter'. Man skriver så inn en startstasjon og en sluttstasjon, ønsket data og klokkeslett. Det vil så bli skrevet ut informasjon om de togrutene som stemmer overens med input.
+Vi har løst brukerhistorien i [teater.py](./Prosjekt/teater.py)-filen. Ved å kjøre filen og skrive inn 'T' for 'Søk etter togruter'. Man skriver så inn en startstasjon og en sluttstasjon, ønsket data og klokkeslett. Det vil så bli skrevet ut informasjon om de togrutene som stemmer overens med input.
 
 -----
 ### **Brukstilfelle 5**
@@ -63,7 +63,7 @@ Vi ønsker å lage et query i SQL som finner hvilke (navn på) skuespillere som
 opptrer i de forskjellige teaterstykkene. Skriv ut navn på teaterstykke, navn på skuespiller og rolle.
 
 **Løsning**  
-Vi har løst brukerhistorien i [tog.py](./tog.py)-filen. Kjør filen og skriv inn 'R' for 'Registerer deg i kunderegisteret'. Man skriver så inn fornavn, etternavn, epost og telefonnummer for å bli registert som en kunde.
+Vi har løst brukerhistorien i [teater.py](./tog.py)-filen. Kjør filen og skriv inn 'R' for 'Registerer deg i kunderegisteret'. Man skriver så inn fornavn, etternavn, epost og telefonnummer for å bli registert som en kunde.
 
 -----
 ### **Brukstilfelle 6**
@@ -83,4 +83,4 @@ hvilke skuespilllere de har spilt med i samme akt. Skriv ut navn på begge og
 hvilket skuespill det skjedde.
 
 **Løsning**  
-Vi har løst brukerhistorien i [tog.py](./tog.py)-filen. Kjør filen og skriv inn 'F' for 'Finn informasjon om fremtidige reiser'. Man skriver så inn fornavn og etternavn. Man vil så få ut informasjon om fremtidige reiser.
+Vi har løst brukerhistorien i [teater.py](./tog.py)-filen. Kjør filen og skriv inn 'F' for 'Finn informasjon om fremtidige reiser'. Man skriver så inn fornavn og etternavn. Man vil så få ut informasjon om fremtidige reiser.
