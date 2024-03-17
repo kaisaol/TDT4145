@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS Teater (
             ON UPDATE NO ACTION
 );
 
-"Endret TelefonNr og Epost til aa kunne ha NULL-verdier, da dette ikke var tilgjeng"
+-- "Endret TelefonNr og Epost til aa kunne ha NULL-verdier, da dette ikke var tilgjeng"
 CREATE TABLE IF NOT EXISTS Ansatt (
     AnsattID INTEGER NOT NULL,
     Navn TEXT NOT NULL,
