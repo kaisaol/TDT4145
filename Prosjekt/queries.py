@@ -36,3 +36,4 @@ JOIN Ansatt AS s ON sk2.AnsattID = s.AnsattID
 WHERE a1.Navn = '<Skuespillernavn>'
 AND s.Navn != '<Skuespillernavn>';
 """
+

@@ -71,7 +71,7 @@ Denne funksjonen skal implementeres i Python og SQL.
 **Løsning**  
 Vi har løst brukerhistorien i [teater.py](./Prosjekt/teater.py)-filen.
 
-Se funksjon "kjøpeNiBilletter()"
+Se funksjon "kjoepeNiBilletter()"
 
 PSEUDO TANKEGANG
 1. Hente ut stolene som ligger i billettabellen (altså "er solgt")
@@ -79,19 +79,27 @@ PSEUDO TANKEGANG
 2. Resultattabellen av dette er "de ledige stolene"
 3. GroupBy resterenede stoler i resultattabellen på Rad
 4. Count for hver rad og sjekk om >= 9
-5. Kjøp første tilgjenglige (øverst i tabellen) med funk. til Emrik fra brukerhistorie 2
+5. Kjøp første tilgjenglige (øverst i tabellen) med kjøp billett funksjonen
+6. Hvordan løse pris
 
 SELECT radnr, COUNT(*) as antall_stoler
 FROM stoler (resultattabellen med ledige stoler)
 GROUP BY radnr
 HAVING COUNT(*) >= 9;
-KJØP OG ENDRE (Her vil den globale Billett-tabellen endres)
-    KJØPET SKJER I DB (IKKE ut fra txt.fil, så kan ikke bruke Emrik sin egentlig)
+KJØP-billetter-funksjon (OG ENDRE Database tilhørende) (Her vil den globale Billett-tabellen endres)
+
+*Løse pris
 
 
-Implementasjon Python
-Implementasjon SQL
+
+Implementasjon Python:
+
+Implementasjon SQL:
+
 Hvordan initialisere funksjon
+
+Begrensninger/annet:
+
 
 ---
 

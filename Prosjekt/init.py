@@ -227,8 +227,6 @@ try:
     #Standardkunden til brukerhistorie 2 og 3, Billettkjøp, Billett, Kundegruppe, Typebillett - Må vel ha
     c.execute('INSERT INTO Kunde(KundeNr, TelefonNr, Navn, Adresse) VALUES(1, 94978082, "Stian Standard","Standarsvingen 13") ')
 
-
-
    
     #Stoler (ingenting om de er solgt eller ikke)
 
