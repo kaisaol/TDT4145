@@ -240,10 +240,12 @@ else:
         data = f.read()
         result = {}
         area = None
+        date = None
 
         for line in data.splitlines():
 
             if line.startswith("Dato"): #Finner ut om det er dato linje
+                date = line
                 continue
 
             if not (line.startswith("0") or line.startswith("1")): #Finner ut om det er en stol eller ikke
