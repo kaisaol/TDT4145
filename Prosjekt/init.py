@@ -274,13 +274,13 @@ try:
     
     #Henter fra gamle-scenen
                 
-    resultG = getAreaWithRow("txtFiles/gamle-scene")
+    resultG = getAreaWithRow("txtFiles/gamle-scene.txt")
     for area, lines in resultG.items():
         for rowN, line in enumerate(lines, 1):
             count = 1
             for seat in line:
                 if seat != "x":
-                    con.execute()
+                    con.execute('INSERT INTO Stol(StolNr, RadNr, Omrade, SalID) VALUES(:StolrNr, :RadNr, :Omrade, 2)', {"StolNr": count, "RadNr": rowN, "Omrode": area})
                 count += 1
 
 
