@@ -1,25 +1,31 @@
 import sqlite3
 import os
 
-os.remove("teater.db")
+try:
+    os.remove("teater.db")
+except FileNotFoundError:
+    pass
 
 con = sqlite3.connect("teater.db") #kobler til database 
 c = con.cursor()
 
 try:
-
-    #OPPRETTER DATABASEN OG TABELLENE
     with open("teater.sql", "r") as fp:
-        sql = fp.read()
-    
-    c.executescript(sql)
-
-
-
-
-
-
-    #BRUKSHISTORIE 1 - INNSETTING AV VERDIER
+        sql_commands = fp.read().split(';')
+    for command in sql_commands:
+        try:
+            if command.strip(): 
+                c.execute(command)
+        except sqlite3.OperationalError as e:
+            print(f"An error occurred with SQLite: {e}")
+            print(f"Problematic SQL command: {command}")
+            break 
+except FileNotFoundError:
+    print("Failed to open 'teater.sql'. Please check if the file exists and the path is correct.")
+except sqlite3.Error as e:
+    print("An error occurred with SQLite:", e)
+else:
+     #BRUKSHISTORIE 1 - INNSETTING AV VERDIER
 
     #Teater
     c.execute('INSERT INTO Teater(TeaterID, Navn, AnsattID) VALUES(1, "Troendelag teater", 29)')
@@ -218,25 +224,24 @@ try:
     c.execute('INSERT INTO TypeBillett VALUES("GH",2, 270)')
 
     #TypeBillett - Kongsemnene
-    c.execute('INSERT INTO TypeBillett("O", 1, 450)')
-    c.execute('INSERT INTO TypeBillett("H", 1, 380)')
-    c.execute('INSERT INTO TypeBillett("S", 1, 280)')
-    c.execute('INSERT INTO TypeBillett("G", 1, 420)')
-    c.execute('INSERT INTO TypeBillett("GH", 1, 360)')
+    c.execute('INSERT INTO TypeBillett VALUES("O", 1, 450)')
+    c.execute('INSERT INTO TypeBillett VALUES("H", 1, 380)')
+    c.execute('INSERT INTO TypeBillett VALUES("S", 1, 280)')
+    c.execute('INSERT INTO TypeBillett VALUES("G", 1, 420)')
+    c.execute('INSERT INTO TypeBillett VALUES("GH", 1, 360)')
 
     #Standardkunden til brukerhistorie 2 og 3, Billettkjøp, Billett, Kundegruppe, Typebillett - Må vel ha
     c.execute('INSERT INTO Kunde(KundeNr, TelefonNr, Navn, Adresse) VALUES(1, 94978082, "Stian Standard","Standarsvingen 13") ')
 
-   
     #Stoler (ingenting om de er solgt eller ikke)
 
     def getAreaWithRow(file): #generell hent info fra txt funksjon
         f = open(file,"r")
-        line = f.readline()
+        data = f.read()
         result = {}
         area = None
 
-        while True:
+        for line in data.splitlines():
 
             if line.startswith("Dato"): #Finner ut om det er dato linje
                 continue
@@ -248,17 +253,15 @@ try:
 
             result[area].insert(0, line)
 
-            if not line:
-                break
-
 
         f.close()
-        print("klarte å lese fra fil")
         return result
 
-     #Henter fra hovedscene
+     
 
-    resultH = getAreaWithRow("txtFiles/hovedscene.txt")
+
+#Henter fra hovedscene
+    resultH = getAreaWithRow("txtFiles/hovedscenen.txt")
     mainStageArea = ["Parkett", "Galleri"]
     countH = 1
     for area in mainStageArea:
@@ -266,28 +269,26 @@ try:
         for rowN, line in enumerate(lines, 1):
             for seat in line:
                 if seat != "x":
-                    con.execute('INSERT INTO Stol(StolNr, RadNr, Omrade, SalID) VALUES(:StolrNr, :RadNr, :Omrade, 1)', {"StolNr": countH, "RadNr": rowN, "Omrode": area})
+                    c.execute('INSERT INTO Stol(StolNr, RadNr, Omrade, SalID) VALUES(:StolNr, :RadNr, :Omrade, 1)', {"StolNr": countH, "RadNr": rowN, "Omrade": area})
                 countH += 1
 
     
     #Henter fra gamle-scenen
-                
     resultG = getAreaWithRow("txtFiles/gamle-scene.txt")
     for area, lines in resultG.items():
         for rowN, line in enumerate(lines, 1):
             count = 1
             for seat in line:
                 if seat != "x":
-                    con.execute('INSERT INTO Stol(StolNr, RadNr, Omrade, SalID) VALUES(:StolrNr, :RadNr, :Omrade, 2)', {"StolNr": count, "RadNr": rowN, "Omrode": area})
+                    c.execute('INSERT INTO Stol(StolNr, RadNr, Omrade, SalID) VALUES(:StolNr, :RadNr, :Omrade, 2)', {"StolNr": count, "RadNr": rowN, "Omrade": area})
                 count += 1
 
+    con.commit()
+    print("Database setup completed successfully.")
 
-
+finally:
+    con.close()
+    print("Closed connection successfully")
    
     
 
-    print("Databasen er opprettet")
-except FileNotFoundError:
-    print("Databasen eksisterer allerede")
-
-con.close()
