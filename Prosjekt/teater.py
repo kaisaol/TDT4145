@@ -1,8 +1,12 @@
 import sqlite3
 import datetime
 from queries import antallSolgteBilletterPaDato, skuespillereIStykker, forestillingerSortertEtterSolgteBilletter, skuespillereISammeAkt
+from init import getAreaWithRow
 con = sqlite3.connect("teater.db")
 c = con.cursor()
+
+billettId = 1
+referanseNr = 1
 
 startquery = True
 
@@ -36,9 +40,64 @@ def setteInnSolgteStoler(): #brukstilfelle 2
                             print(f"Billett for stol {stol_nr}, rad {rad_nr}, i område {omrade} på dato {forestilling_dato} er allerede registrert.")
 
 
-#BRUKSTILFELLE 3:
-    #denne skal kjøpe 9 billetter på samme rad og gi pris
-    #Utkast
+def getData(file):
+    f = open(file,"r")
+    line = f.readline()
+    date = None
+
+    while True:
+        if line.startswith("Dato"):
+            return date
+            
+        if not line: 
+            break
+
+def aleredeKjopt(): #Finner allerede kjøpte seter
+    # setter opp gamle scene 
+    fileOne = "txtFiles/hovedscene.txt"
+    fileTwo = "txtFiles/gamle-scene.txt"
+
+    resultH = getAreaWithRow(fileOne)
+    dateOne = getData(fileOne)
+    mainStageArea = ["Parkett", "Galleri"]
+    countH = 1
+
+
+    oldRefNum = referanseNr
+    billettKjop(dateOne, 1, referanseNr)
+
+    for area in mainStageArea:
+        lines = resultH[area]
+        for rowN, line in enumerate(lines, 1):
+            for seat in line:
+                if seat == "1":
+                    kjopBillett(countH, rowN, area, billettId, 1, oldRefNum)
+                countH += 1
+    
+    resultG = getAreaWithRow(fileTwo)
+    dateTwo = getData(fileTwo)
+    oldRefNum = referanseNr
+    billettKjop(dateTwo, 1, referanseNr)
+
+    for area, lines in resultG.items():
+        for rowN, line in enumerate(lines, 1):
+            count = 1
+            for seat in line:
+                if seat == "1":
+                    kjopBillett(count, rowN, area, billettId, 2, oldRefNum)
+                count += 1
+
+
+
+def billettKjop(dato, kundeNr, referanseNr):
+    c.execute('INSERT INTO BilettKjop(ReferanseNr, Tidspunkt, KundeNr) VALUES(:ReferanseNr, :Tidspunkt, :KundeNr)', {"ReferanseNr":referanseNr, "Tidspunkt":dato, "KundeNr":kundeNr})
+    referanseNr += 1 
+
+def kjopBillett(stolNr, radNr, omrade, billettId, salId, refNr):
+    c.execute('INSERT INTO Billett(BillettID, ReferanseNr, StolNr, RadNr, Omrade, SalID) VALUES(:BillettID, :ReferanseNr, :StolNr, :RadNr, :Område, :SalID)', {"BillettID":billettId, "ReferanseNr":refNr, "StolNr":stolNr, "RadNr":radNr, "Omrade":omrade, "SalID":salId})
+    billettId += 1
+
+
 def kjopNiBilletter(forestilling_dato="2024-02-03", stykkeID=2, kundegruppeID="O", antall_billetter=9):
     # 1 & 2. Identifiser ledige stoler ved å sjekke mot de som allerede er solgt
     c.execute("""
