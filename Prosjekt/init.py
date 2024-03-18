@@ -6,166 +6,9 @@ os.remove("teater.db")
 con = sqlite3.connect("teater.db") #kobler til database 
 c = con.cursor()
 
-#Oppretter tabeller
+try:
 
-try: 
-    # c.execute('''CREATE TABLE Kunde(
-    #     KundeNr INTEGER NOT NULL,
-    #     TelefonNr INTEGER NOT NULL,
-    #     Navn TEXT NOT NULL,
-    #     Adresse TEXT NOT NULL,
-    #     PRIMARY KEY (KundeNr)
-    # )''')
-
-    # c.execute('''CREATE TABLE BilettKjop (
-    #     ReferanseNr INTEGER NOT NULL UNIQUE,
-    #     Tidspunkt DATETIME NOT NULL,
-	#     KundeNr INTEGER NOT NULL,
-    #     PRIMARY KEY (ReferanseNr),
-    #     FOREIGN KEY (KundeNr) REFERENCES Kunde (KundeNr) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE Billett (
-    #     BillettID INTEGER NOT NULL UNIQUE,
-    #     ReferanseNr INTEGER NOT NULL,
-    #     StolNr INTEGER NOT NULL,
-    #     RadNr INTEGER NOT NULL,
-    #     Omrade TEXT NOT NULL,
-    #     SalID INTEGER NOT NULL,
-    #     PRIMARY KEY (BillettID),
-    #     FOREIGN KEY (ReferanseNr) REFERENCES BilettKjop (ReferanseNr)ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (StolNr, RadNr, Omrade) REFERENCES Stol (StolNr, RadNr, Omrade) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (SalID) REFERENCES Teatersal (SalID) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE Kundegruppe(
-    #     KundegruppeID TEXT NOT NULL UNIQUE,
-    #     PRIMARY KEY (KundegruppeID)
-    # )''')
-
-    # c.execute('''CREATE TABLE Stol (
-    #     StolNr INTEGER NOT NULL,
-    #     RadNr INTEGER NOT NULL,
-    #     Omrade TEXT NOT NULL,
-    #     SalID INTEGER NOT NULL,
-    #     PRIMARY KEY (StolNr, RadNr, Omrade, SalID),
-    #     FOREIGN KEY (SalID) REFERENCES Teatersal (SalID) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE Teatersal(
-    #     SalID INTEGER NOT NULL UNIQUE,
-    #     Navn TEXT NOT NULL,
-    #     Kapasitet INTEGER NOT NULL,
-    #     TeaterID INTEGER NOT NULL,
-    #     PRIMARY KEY (SalID),
-    #     FOREIGN KEY (TeaterID) REFERENCES Teater (TeaterID) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE Teater(
-    #     TeaterID INTEGER NOT NULL UNIQUE,
-    #     Navn TEXT NOT NULL,
-    #     AnsattID INTEGER NOT NULL,
-    #     PRIMARY KEY (TeaterID),
-    #     FOREIGN KEY (AnsattID) REFERENCES Ansatt (AnsattID) ON DELETE CASCADE
-    #     ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''
-    # )''')
-
-    # c.execute('''CREATE TABLE Ansatt(
-    #     AnsattID INTEGER NOT NULL UNIQUE,
-    #     Navn TEXT NOT NULL,
-    #     TelefonNr INTEGER,
-    #     Epost TEXT,
-    #     Jobbstatus TEXT NOT NULL,
-    #     Stillingstittel TEXT NOT NULL,
-    #     PRIMARY KEY (AnsattID)
-    # )''')
-
-    # c.execute('''CREATE TABLE Forestilling(
-    #     Tidspunkt DATETIME NOT NULL,
-    #     SalID INTEGER NOT NULL,
-    #     StykkeID INTEGER NOT NULL,
-    #     PRIMARY KEY (Tidspunkt, SalID, StykkeID),
-    #     FOREIGN KEY (SalID) REFERENCES Teatersal (SalID) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (StykkeID) REFERENCES Teaterstykke (StykkeID) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE Teaterstykke(
-    #     StykkeID INTEGER NOT NULL,
-    #     Navn TEXT NOT NULL,
-    #     StartDato DATE NOT NULL,
-    #     PRIMARY KEY (StykkeID),
-    #     FOREIGN KEY (StartDato) REFERENCES Sesong (StartDato) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE Rolle(
-    #     RolleID INTEGER NOT NULL,
-    #     Rollenavn TEXT NOT NULL,
-    #     PRIMARY KEY (RolleID)
-    # )''')
-    
-    # c.execute('''CREATE TABLE Sesong(
-    #     StartDato DATE NOT NULL,
-    #     SluttDato DATE NOT NULL,
-    #     TeaterID INTEGER NOT NULL,
-    #     PRIMARY KEY (StartDato, TeaterID),
-    #     FOREIGN KEY (TeaterID)  REFERENCES Teater (TeaterID) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-    
-    # c.execute('''CREATE TABLE Oppgave(
-    #     OppgaveID INTEGER NOT NULL,
-    #     Beskrivelse TEXT NOT NULL,
-    #     PRIMARY KEY (OppgaveID)
-    # )''')
-    
-    # c.execute('''CREATE TABLE TeaterOppgave(
-    #     StykkeID INTEGER NOT NULL,
-    #     OppgaveID INTEGER NOT NULL,
-    #     PRIMARY KEY (StykkeID, OppgaveID),
-    #     FOREIGN KEY (StykkeID) REFERENCES Teaterstykke (StykkeID) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (OppgaveID) REFERENCES Oppgave (OppgaveID) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE DelegerteOppgaver(
-    #    OppgaveID INTEGER NOT NULL,
-    #     AnsattID INTEGER NOT NULL,
-    #     PRIMARY KEY (OppgaveID, AnsattID),
-    #     FOREIGN KEY (OppgaveID) REFERENCES Oppgave (OppgaveID) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (AnsattID) REFERENCES Ansatt (AnsattID) ON DELETE CASCADE ON UPDATE NO ACTION
-    # )''')
-
-    # c.execute('''CREATE TABLE Skuespillere (
-    #     AnsattID INTEGER NOT NULL,
-    #     RolleID INTEGER NOT NULL,
-    #     PRIMARY KEY (AnsattID, RolleID),
-    #     FOREIGN KEY (AnsattID) REFERENCES Ansatt (AnsattID) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (RolleID) REFERENCES Rolle (RolleID) ON DELETE CASCADE ON UPDATE NO ACTION
-    #     )''')
-        
-        
-    # c.execute('''CREATE TABLE RolleAkt(
-    #     StykkeID INTEGER NOT NULL,
-    #     AktNr INTEGER NOT NULL,
-    #     RolleID INTEGER NOT NULL,
-    #     PRIMARY KEY (StykkeID, AktNr, RolleID),
-    #     FOREIGN KEY (StykkeID) REFERENCES Teaterstykke (StykkeID) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (AktNr) REFERENCES Akt (AktNr) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (RolleID) REFERENCES Rolle (RolleID) ON DELETE CASCADE ON UPDATE NO ACTION
-    #     )''')
-
-    
-    # c.execute('''CREATE TABLE TypeBillett(
-    #     KundegruppeID TEXT NOT NULL,
-    #     StykkeID INTEGER NOT NULL,
-    #     Pris FLOAT NOT NULL,
-    #     PRIMARY KEY (KundegruppeID, StykkeID),
-    #     FOREIGN KEY (StykkeID) REFERENCES Teaterstykke (StykkeID) ON DELETE CASCADE ON UPDATE NO ACTION,
-    #     FOREIGN KEY (KundegruppeID) REFERENCES BillettType (KundegruppeID) ON DELETE CASCADE ON UPDATE NO ACTION
-    #     )''')
-    
-
+    #OPPRETTER DATABASEN OG TABELLENE
     with open("teater.sql", "r") as fp:
         sql = fp.read()
     
@@ -176,12 +19,7 @@ try:
 
 
 
-
-
-
-
-
-    #INNSETTING AV VERDIER
+    #BRUKSHISTORIE 1 - INNSETTING AV VERDIER
 
     #Teater
     c.execute('INSERT INTO Teater(TeaterID, Navn, AnsattID) VALUES(1, "Troendelag teater", 29)')
@@ -365,33 +203,90 @@ try:
 
 
 
+    #Kundegruppe
+    c.execute('INSERT INTO Kundegruppe(KundegruppeID) VALUES("O")')
+    c.execute('INSERT INTO Kundegruppe(KundegruppeID) VALUES("H")')
+    c.execute('INSERT INTO Kundegruppe(KundegruppeID) VALUES("S")')
+    c.execute('INSERT INTO Kundegruppe(KundegruppeID) VALUES("G")')
+    c.execute('INSERT INTO Kundegruppe(KundegruppeID) VALUES("GH")')
+
+    #TypeBillett - Stoerst av alt er kjaerligheten 
+    c.execute('INSERT INTO TypeBillett(KundegruppeID, StykkeID, Pris) VALUES("O",2, 350)')
+    c.execute('INSERT INTO TypeBillett VALUES("H",2, 300)')
+    c.execute('INSERT INTO TypeBillett VALUES("S",2, 220)')
+    c.execute('INSERT INTO TypeBillett VALUES("G",2, 320)')
+    c.execute('INSERT INTO TypeBillett VALUES("GH",2, 270)')
+
+    #TypeBillett - Kongsemnene
+    c.execute('INSERT INTO TypeBillett("O", 1, 450)')
+    c.execute('INSERT INTO TypeBillett("H", 1, 380)')
+    c.execute('INSERT INTO TypeBillett("S", 1, 280)')
+    c.execute('INSERT INTO TypeBillett("G", 1, 420)')
+    c.execute('INSERT INTO TypeBillett("GH", 1, 360)')
+
+    #Standardkunden til brukerhistorie 2 og 3, Billettkjøp, Billett, Kundegruppe, Typebillett - Må vel ha
+    c.execute('INSERT INTO Kunde(KundeNr, TelefonNr, Navn, Adresse) VALUES(1, 94978082, "Stian Standard","Standarsvingen 13") ')
 
 
 
+   
+    #Stoler (ingenting om de er solgt eller ikke)
 
-
-
-    #stoler (ingenting om de er solgt eller ikke)
-    f = open("txtFiles/hovedscenen.txt","r")
-    while True: 
-        area = ""
+    def getAreaWithRow(file): #generell hent info fra txt funksjon
+        f = open(file,"r")
         line = f.readline()
-        next(f) #hopper over første linje som er en dato
-        n = 524
-        for i, line in enumerate(f):
-            if i == 1: #linjen om galeri
+        result = {}
+        area = None
+
+        while True:
+
+            if line.startswith("Dato"): #Finner ut om det er dato linje
+                continue
+
+            if not (line.startswith("0") or line.startswith("1")): #Finner ut om det er en stol eller ikke
                 area = line
-            if i > 1 and i < 6:
-                c.execute('INSERT INTO Stol()')
-                
-                
-            
-        if not line:
-            break 
-    f.close()
+                result[area] = []
+                continue
+
+            result[area].insert(0, line)
+
+            if not line:
+                break
+
+
+        f.close()
+        print("klarte å lese fra fil")
+        return result
+
+     #Henter fra hovedscene
+
+    resultH = getAreaWithRow("txtFiles/hovedscene.txt")
+    mainStageArea = ["Parkett", "Galleri"]
+    countH = 1
+    for area in mainStageArea:
+        lines = resultH[area]
+        for rowN, line in enumerate(lines, 1):
+            for seat in line:
+                if seat != "x":
+                    con.execute('INSERT INTO Stol(StolNr, RadNr, Omrade, SalID) VALUES(:StolrNr, :RadNr, :Omrade, 1)', {"StolNr": countH, "RadNr": rowN, "Omrode": area})
+                countH += 1
+
     
-    f = open("txtFiles/gamle-scene.txt","r")
-    f.close()
+    #Henter fra gamle-scenen
+                
+    resultG = getAreaWithRow("txtFiles/gamle-scene")
+    for area, lines in resultG.items():
+        for rowN, line in enumerate(lines, 1):
+            count = 1
+            for seat in line:
+                if seat != "x":
+                    con.execute()
+                count += 1
+
+
+
+   
+    
 
     print("Databasen er opprettet")
 except FileNotFoundError:

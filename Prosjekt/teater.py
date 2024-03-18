@@ -35,7 +35,7 @@ def setteInnSolgteStoler(): #brukstilfelle 2
                         except sqlite3.IntegrityError:
                             print(f"Billett for stol {stol_nr}, rad {rad_nr}, i område {omrade} på dato {forestilling_dato} er allerede registrert.")
 
-def kjøpeBilletter(): #brukstilfelle 3
+def kjøpeNiBilletter(): #brukstilfelle 3
     #denne skal kjøpe 9 billetter på samme rad og gi pris
 
 def forestillingerPåDato(): #brukstilfelle 4

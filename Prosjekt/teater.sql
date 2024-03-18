@@ -1,3 +1,4 @@
+-- SQLBook: Code
 CREATE TABLE IF NOT EXISTS Kunde (
     KundeNr INTEGER NOT NULL,
     TelefonNr INTEGER NOT NULL,
