@@ -28,14 +28,20 @@ forestillingerPaaDatoQuery = """
     WHERE DATE(Forestilling.Tidspunkt) = ?
     GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
     """
-forestillingerSortertEtterSolgteBilletter = """
-SELECT Forestilling.Tidspunkt, Teaterstykke.Navn, COUNT(Billett.BillettID) AS AntallSolgteBilletter
-FROM Forestilling
-JOIN Teaterstykke ON Forestilling.StykkeID = Teaterstykke.StykkeID
-JOIN Billett ON Forestilling.SalID = Billett.SalID AND Forestilling.Tidspunkt = Billett.Tidspunkt
-GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
-ORDER BY AntallSolgteBilletter DESC;
+forestillingerRangertQuery = """
+SELECT
+        Teaterstykke.Navn AS "Forestilling",
+        Forestilling.Tidspunkt AS "Dato",
+        COUNT(Billett.BillettID) AS "Antall Solgte Plasser"
+    FROM
+        Forestilling
+    JOIN Teaterstykke ON Forestilling.StykkeID = Teaterstykke.StykkeID
+    LEFT JOIN BilettKjop ON Forestilling.Tidspunkt = BilettKjop.Tidspunkt
+    LEFT JOIN Billett ON BilettKjop.ReferanseNr = Billett.ReferanseNr
+    GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
+    ORDER BY COUNT(Billett.BillettID) DESC;
 """
+
 
 skuespillereISammeAkt = """
 SELECT DISTINCT a.Navn AS AktNavn, s.Navn AS SkuespillerNavn, t.Navn AS StykkeNavn
