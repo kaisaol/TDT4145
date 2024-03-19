@@ -1,7 +1,6 @@
 import sqlite3
 import datetime
 from queries import antallSolgteBilletterPaDato, skuespillereIStykker, forestillingerSortertEtterSolgteBilletter, skuespillereISammeAkt
-from init import getAreaWithRow
 con = sqlite3.connect("teater.db")
 c = con.cursor()
 
@@ -149,18 +148,28 @@ def kjopNiBilletter(forestilling_dato="2024-02-03", stykkeID=2, kundegruppeID="O
     con.commit()
     print(f"Kjøpte {antall_billetter} billetter til 'Størst av alt er kjærligheten' den {forestilling_dato}. Totalpris: {totalpris} NOK.")
 
-   
-
-#######
 
 
+def forestillingerPaaDato(dato): #brukstilfelle 4
+    c.execute(forestillingerPaaDatoQuery, (dato,))
+    performances = c.fetchall()
+    
+    return performances
 
-def forestillingerPåDato(): #brukstilfelle 4
-    #denne skal ha input og gi alle forestillinger på dato
+# Example usage
+if __name__ == "__main__":
+    date_input = input("Sett inn dato på formatet (YYYY-MM-DD): ")
+    try:
+        datetime.strptime(date_input, "%Y-%m-%d")
+        performances = forestillingerPaaDato(date_input)
+        for performance in performances:
+            print(f"Tid: {performance[0]}, Stykke: {performance[1]}, Solgte billetter: {performance[2]}")
+    except ValueError:
+        print("Ugyldig dato-format. Vennligst bruk YYYY-MM-DD.")
 
-def skuespillereIStykker(): #brukstilfelle 5
-    #usikker på funksjon her, skal i alle fall være query om alle skuespillere med navn, stykke og rolle
-def forestillingerRangert(): #brukstilfelle 6
-    #returnerer alle forestillinger med navn, dato og antall billetter solgt i synkende rekkefølge
-def skuespillereISammeAkt(): #brukstilfelle 7
-    #tar input på navn, returnerer alle skuespillere den har spilt i akt med, med begge navn og spillet
+# def skuespillereIStykker(): #brukstilfelle 5
+#     #usikker på funksjon her, skal i alle fall være query om alle skuespillere med navn, stykke og rolle
+# def forestillingerRangert(): #brukstilfelle 6
+#     #returnerer alle forestillinger med navn, dato og antall billetter solgt i synkende rekkefølge
+# def skuespillereISammeAkt(): #brukstilfelle 7
+#     #tar input på navn, returnerer alle skuespillere den har spilt i akt med, med begge navn og spillet

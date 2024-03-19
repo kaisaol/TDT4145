@@ -15,6 +15,15 @@ JOIN Rolle ON Skuespillere.RolleID = Rolle.RolleID
 JOIN Teaterstykke ON RolleIAkt.StykkeID = Teaterstykke.StykkeID
 JOIN RolleIAkt ON Rolle.RolleID = RolleIAkt.RolleID;
 """
+forestillingerPaaDatoQuery = """
+    SELECT Forestilling.Tidspunkt, Teaterstykke.Navn, COUNT(Billett.BillettID) as SoldTickets
+    FROM Forestilling
+    JOIN Teaterstykke ON Forestilling.StykkeID = Teaterstykke.StykkeID
+    LEFT JOIN BilettKjop ON BilettKjop.Tidspunkt = Forestilling.Tidspunkt
+    LEFT JOIN Billett ON Billett.ReferanseNr = BilettKjop.ReferanseNr
+    WHERE DATE(Forestilling.Tidspunkt) = ?
+    GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
+    """
 forestillingerSortertEtterSolgteBilletter = """
 SELECT Forestilling.Tidspunkt, Teaterstykke.Navn, COUNT(Billett.BillettID) AS AntallSolgteBilletter
 FROM Forestilling
