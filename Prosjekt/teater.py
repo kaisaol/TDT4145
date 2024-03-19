@@ -1,6 +1,6 @@
 import sqlite3
 import datetime
-from queries import antallSolgteBilletterPaDato, skuespillereIStykkerQuery, forestillingerSortertEtterSolgteBilletter, skuespillereISammeAkt, forestillingerPaaDatoQuery
+from queries import antallSolgteBilletterPaDato, skuespillereIStykkerQuery, forestillingerRangertQuery, skuespillereISammeAkt, forestillingerPaaDatoQuery
 con = sqlite3.connect("teater.db")
 c = con.cursor()
 
@@ -165,6 +165,7 @@ if __name__ == "__main__":
             print(f"Tid: {performance[0]}, Stykke: {performance[1]}, Solgte billetter: {performance[2]}")
     except ValueError:
         print("Ugyldig dato-format. Vennligst bruk YYYY-MM-DD.")
+    #her må jeg legge inn del to med antall solgte billetter!!!
 
 def skuespillereIStykker(): #brukstilfelle 5
     c.execute(skuespillereIStykkerQuery)
@@ -173,7 +174,17 @@ def skuespillereIStykker(): #brukstilfelle 5
         print(f"Teaterstykke: {row[0]}, Skuespiller: {row[1]}, Rolle: {row[2]}")
 if __name__ == "__main__":
     skuespillereIStykker()
-# def forestillingerRangert(): #brukstilfelle 6
-#     #returnerer alle forestillinger med navn, dato og antall billetter solgt i synkende rekkefølge
+
+
+def forestillingerRangert(): #brukstilfelle 6
+    c.execute(forestillingerRangertQuery)
+
+    resultater = c.fetchall()
+    for row in resultater:
+        print(f"Forestilling: {row[0]}, Dato: {row[1]}, Antall Solgte Plasser: {row[2]}")
+
+if __name__ == "__main__":
+    forestillingerRangert()
+
 # def skuespillereISammeAkt(): #brukstilfelle 7
 #     #tar input på navn, returnerer alle skuespillere den har spilt i akt med, med begge navn og spillet
