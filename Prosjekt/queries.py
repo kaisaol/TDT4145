@@ -7,13 +7,17 @@ LEFT JOIN Billett ON Forestilling.SalID = Billett.SalID AND Forestilling.Tidspun
 GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
 HAVING Forestilling.Tidspunkt = '2024-02-03';
 """
-skuespillereIStykker = """
-SELECT Teaterstykke.Navn AS StykkeNavn, Ansatt.Navn AS SkuespillerNavn, Rolle.Rollenavn
+skuespillereIStykkerQuery = """
+SELECT DISTINCT
+    Teaterstykke.Navn AS "Teaterstykke",
+    Ansatt.Navn AS "Skuespiller",
+    Rolle.Rollenavn AS "Rolle"
 FROM Skuespillere
 JOIN Ansatt ON Skuespillere.AnsattID = Ansatt.AnsattID
 JOIN Rolle ON Skuespillere.RolleID = Rolle.RolleID
+JOIN RolleIAkt ON Rolle.RolleID = RolleIAkt.RolleID
 JOIN Teaterstykke ON RolleIAkt.StykkeID = Teaterstykke.StykkeID
-JOIN RolleIAkt ON Rolle.RolleID = RolleIAkt.RolleID;
+ORDER BY Teaterstykke.Navn, Ansatt.Navn, Rolle.Rollenavn;
 """
 forestillingerPaaDatoQuery = """
     SELECT Forestilling.Tidspunkt, Teaterstykke.Navn, COUNT(Billett.BillettID) as SoldTickets
