@@ -1,12 +1,12 @@
 
-antallSolgteBilletterPaDato = """
-SELECT Forestilling.Tidspunkt, Teaterstykke.Navn, COUNT(Billett.BillettID) AS AntallSolgteBilletter
-FROM Forestilling
-JOIN Teaterstykke ON Forestilling.StykkeID = Teaterstykke.StykkeID
-LEFT JOIN Billett ON Forestilling.SalID = Billett.SalID AND Forestilling.Tidspunkt = Billett.Tidspunkt
-GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
-HAVING Forestilling.Tidspunkt = '2024-02-03';
-"""
+# antallSolgteBilletterPaDato = """
+# SELECT Forestilling.Tidspunkt, Teaterstykke.Navn, COUNT(Billett.BillettID) AS AntallSolgteBilletter
+# FROM Forestilling
+# JOIN Teaterstykke ON Forestilling.StykkeID = Teaterstykke.StykkeID
+# LEFT JOIN Billett ON Forestilling.SalID = Billett.SalID AND Forestilling.Tidspunkt = Billett.Tidspunkt
+# GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
+# HAVING Forestilling.Tidspunkt = '2024-02-03';
+# """
 skuespillereIStykkerQuery = """
 SELECT DISTINCT
     Teaterstykke.Navn AS "Teaterstykke",
@@ -43,16 +43,19 @@ SELECT
 """
 
 
-skuespillereISammeAkt = """
-SELECT DISTINCT a.Navn AS AktNavn, s.Navn AS SkuespillerNavn, t.Navn AS StykkeNavn
-FROM Skuespillere AS sk
-JOIN Ansatt AS a1 ON sk.AnsattID = a1.AnsattID
-JOIN RolleIAkt ON sk.RolleID = RolleIAkt.RolleID
-JOIN Akt AS a ON RolleIAkt.AktNr = a.AktNr AND RolleIAkt.StykkeID = a.StykkeID
-JOIN Teaterstykke AS t ON a.StykkeID = t.StykkeID
-JOIN Skuespillere AS sk2 ON a.AktNr = sk2.AnsattID AND a.StykkeID = sk2.RolleID
-JOIN Ansatt AS s ON sk2.AnsattID = s.AnsattID
-WHERE a1.Navn = '<Skuespillernavn>'
-AND s.Navn != '<Skuespillernavn>';
+skuespillereISammeAktQuery = """
+  SELECT DISTINCT
+        a1.Navn AS Skuespiller1,
+        a2.Navn AS Skuespiller2,
+        t.Navn AS Teaterstykke
+    FROM
+        Skuespillere s1
+    JOIN Skuespillere s2 ON s1.StykkeID = s2.StykkeID AND s1.AktNr = s2.AktNr AND s1.AnsattID != s2.AnsattID
+    JOIN Ansatt a1 ON s1.AnsattID = a1.AnsattID
+    JOIN Ansatt a2 ON s2.AnsattID = a2.AnsattID
+    JOIN RolleIAkt r ON s1.StykkeID = r.StykkeID AND s1.AktNr = r.AktNr
+    JOIN Teaterstykke t ON r.StykkeID = t.StykkeID
+    WHERE a1.Navn = ?
+    ORDER BY Teaterstykke, Skuespiller1, Skuespiller2;
 """
 
