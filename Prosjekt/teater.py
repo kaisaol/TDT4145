@@ -1,6 +1,6 @@
 import sqlite3
 import datetime
-from queries import antallSolgteBilletterPaDato, skuespillereIStykker, forestillingerSortertEtterSolgteBilletter, skuespillereISammeAkt
+from queries import antallSolgteBilletterPaDato, skuespillereIStykker, forestillingerSortertEtterSolgteBilletter, skuespillereISammeAkt, forestillingerPaaDatoQuery
 con = sqlite3.connect("teater.db")
 c = con.cursor()
 
