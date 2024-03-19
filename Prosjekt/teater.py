@@ -1,6 +1,6 @@
 import sqlite3
 import datetime
-from queries import antallSolgteBilletterPaDato, skuespillereIStykker, forestillingerSortertEtterSolgteBilletter, skuespillereISammeAkt, forestillingerPaaDatoQuery
+from queries import antallSolgteBilletterPaDato, skuespillereIStykkerQuery, forestillingerSortertEtterSolgteBilletter, skuespillereISammeAkt, forestillingerPaaDatoQuery
 con = sqlite3.connect("teater.db")
 c = con.cursor()
 
@@ -156,7 +156,6 @@ def forestillingerPaaDato(dato): #brukstilfelle 4
     
     return performances
 
-# Example usage
 if __name__ == "__main__":
     date_input = input("Sett inn dato på formatet (YYYY-MM-DD): ")
     try:
@@ -167,8 +166,13 @@ if __name__ == "__main__":
     except ValueError:
         print("Ugyldig dato-format. Vennligst bruk YYYY-MM-DD.")
 
-# def skuespillereIStykker(): #brukstilfelle 5
-#     #usikker på funksjon her, skal i alle fall være query om alle skuespillere med navn, stykke og rolle
+def skuespillereIStykker(): #brukstilfelle 5
+    c.execute(skuespillereIStykkerQuery)
+    results = c.fetchall()
+    for row in results:
+        print(f"Teaterstykke: {row[0]}, Skuespiller: {row[1]}, Rolle: {row[2]}")
+if __name__ == "__main__":
+    skuespillereIStykker()
 # def forestillingerRangert(): #brukstilfelle 6
 #     #returnerer alle forestillinger med navn, dato og antall billetter solgt i synkende rekkefølge
 # def skuespillereISammeAkt(): #brukstilfelle 7
