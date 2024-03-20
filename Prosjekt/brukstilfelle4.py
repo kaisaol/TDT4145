@@ -23,3 +23,5 @@ if __name__ == "__main__":
             print("Ingen forestillinger funnet for denne datoen.")
     except ValueError:
         print("Ugyldig dato-format. Vennligst bruk formatet YYYY-MM-DD.")
+
+##MÅ FIKSES: den antar nå at alle forestillingene av samme stykke har solgt samme antall billetter, så må fikse logikken for dette
