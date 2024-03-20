@@ -1,8 +1,8 @@
-#prøver å gjøre oppgaven på egen måte siden ikke forsto gammel kode
+#forsøk op oppgave 3
 
 import sqlite3
-from brukstilfelle2 import kjopBillett, billettKjop
-
+from queries import skuespillereIStykkerQuery, forestillingerRangertQuery, forestillingerPaaDatoQuery
+from brukstilfelle2 import kjopBillett, billettKjop, refNum
 con = sqlite3.connect("teater.db")
 c = con.cursor()
 
@@ -21,4 +21,30 @@ def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegr
     result = c.fetchone()
     radNr, omrade, amountLedigeStoler, ledigeStoler = result
     ledigeStoler = ledigeStoler.split(",")
-    print(radNr, omrade, amountLedigeStoler, ledigeStoler)
+
+    c.execute("SELECT max(ReferanseNr) FROM BilettKjop")
+    result1 = c.fetchone() #finner forrige ref nummer
+
+    if result1 is not None:
+        newRef = result1[0] + 1 #lager variabel så lenge ikke null
+
+    c.execute("SELECT max(BillettID) FROM Billett")
+    result2 = c.fetchone() #forrige billett nr
+
+    if result2 is not None:
+        newTick = result2[0] + 1 #så lenge ikke null
+    #print(radNr, omrade, amountLedigeStoler, ledigeStoler)
+    bought = 0
+    billettKjop(1, newRef) #nytt kjøp for standarbruker
+    n = 1 #counter
+    
+    for i in ledigeStoler:
+        if n >= 9:
+            break
+        kjopBillett(i, radNr, forestilling_dato, omrade, newTick, 2, newRef)
+        newTick += 1
+        n += 1
+    exit(1)
+
+if __name__ == '__main__':
+    kjopNiBilletter()
