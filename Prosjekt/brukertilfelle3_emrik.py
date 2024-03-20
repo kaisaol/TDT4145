@@ -2,7 +2,6 @@
 
 import sqlite3
 from queries import skuespillereIStykkerQuery, forestillingerRangertQuery, forestillingerPaaDatoQuery
-from brukstilfelle2 import kjopBillett, billettKjop, refNum
 con = sqlite3.connect("teater.db")
 c = con.cursor()
 
@@ -35,16 +34,24 @@ def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegr
         newTick = result2[0] + 1 #så lenge ikke null
     #print(radNr, omrade, amountLedigeStoler, ledigeStoler)
     bought = 0
-    billettKjop(1, newRef) #nytt kjøp for standarbruker
+    billettKjopNine(1, newRef, forestilling_dato) #nytt kjøp for standarbruker som alle 9 biletter går på
     n = 1 #counter
     
     for i in ledigeStoler:
         if n >= 9:
             break
-        kjopBillett(i, radNr, forestilling_dato, omrade, newTick, 2, newRef)
+        kjopBillettNine(i, radNr, forestilling_dato, omrade, newTick, 2, newRef) #kjøper 9 biletter
         newTick += 1
         n += 1
     exit(1)
+
+def billettKjopNine(kundeNr, referanseNr, dato):
+    c.execute('INSERT INTO BilettKjop(ReferanseNr, Tidspunkt, KundeNr) VALUES(:ReferanseNr, :Tidspunkt, :KundeNr)', {"ReferanseNr":referanseNr, "Tidspunkt": dato, "KundeNr":kundeNr})
+    referanseNr += 1 
+
+def kjopBillettNine(stolNr, radNr, tidspunkt, omrade, billettId, salId, refNr):
+    c.execute('INSERT INTO Billett(BillettID, ReferanseNr, Tidspunkt, StolNr, RadNr, Omrade, SalID) VALUES(:BillettID, :ReferanseNr, :Tidspunkt, :StolNr, :RadNr, :Omrade, :SalID)', {"BillettID":billettId, "ReferanseNr":refNr, "Tidspunkt": tidspunkt, "StolNr":stolNr, "RadNr":radNr, "Omrade":omrade, "SalID":salId})
+    billettId += 1
 
 if __name__ == '__main__':
     kjopNiBilletter()

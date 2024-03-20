@@ -72,4 +72,3 @@ WHERE a1.Navn = ?
 ORDER BY ts.Navn, a1.Navn, a2.Navn;
 
 """
-
