@@ -6,19 +6,20 @@ c = con.cursor()
 def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegruppeID="O", antall_billetter=9):
     # 1 & 2. Identifiser ledige stoler ved å sjekke mot de som allerede er solgt
     c.execute("""
-        SELECT Stol.RadNr, Stol.Omrade, COUNT(Stol.StolNr) AS LedigeSeter
-FROM Stol
-LEFT JOIN Billett ON Stol.StolNr = Billett.StolNr AND Stol.RadNr = Billett.RadNr AND Stol.Omrade = Billett.Omrade
-LEFT JOIN BilettKjop ON Billett.ReferanseNr = BilettKjop.ReferanseNr
-LEFT JOIN Forestilling ON BilettKjop.Tidspunkt = Forestilling.Tidspunkt
-WHERE Forestilling.Tidspunkt IS NULL OR Forestilling.Tidspunkt != '2024-02-03 18:30' 
-AND NOT EXISTS (SELECT * FROM Billett WHERE Billett.RadNr = Stol.RadNr AND Billett.StolNr = Stol.StolNr AND Billett.Omrade = Stol.Omrade AND Billett.SalID = Stol.SalID)
-GROUP BY Stol.RadNr, Stol.Omrade
-HAVING COUNT(Stol.StolNr) - COUNT(Billett.StolNr) >= 9;
+       SELECT s.RadNr, s.Omrade, COUNT(s.StolNr) AS ledigeStoler, GROUP_CONCAT(s.StolNr) FROM Stol s
+    INNER JOIN Forestilling f ON f.SalID = s.SalID
+    WHERE f.Tidspunkt = '2024-02-03 18:30:00' 
+        AND NOT EXISTS (SELECT 1 FROM Billett b WHERE b.Tidspunkt = f.Tidspunkt AND b.StolNr = s.StolNr AND b.RadNr = s.RadNr AND b.Omrade = s.Omrade)
+    GROUP BY s.RadNr, s.Omrade
+	HAVING ledigeStoler >= 9
+	LIMIT 1;
     """)
 
-    ledige_stoler = c.fetchall()
-    print(ledige_stoler)
+    result = c.fetchone()
+    radNr, omrade, amountLedigeStoler, ledigeStoler = result
+    ledigeStoler = ledigeStoler.split(",")
+    print(radNr, omrade, amountLedigeStoler, ledigeStoler)
+    exit(1)
 
     # 3 & 4. Gruppere ledige stoler etter RadNr og finne en rad med minst 9 ledige stoler
     rad_med_ledige_stoler = {}
