@@ -43,9 +43,20 @@ def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegr
         kjopBillettNine(i, radNr, forestilling_dato, omrade, newTick, 2, newRef) #kjøper 9 biletter
         newTick += 1
         n += 1
+
+    c.execute(""" 
+    SELECT Pris FROM TypeBillett
+    WHERE StykkeID = 2 AND KundegruppeID = "O"
+    """) #fikser total billett pris
+
+    pris = c.fetchone()[0] * 9 #Henter riktig pris
+    
+    print(pris)
+    
+
     exit(1)
 
-def billettKjopNine(kundeNr, referanseNr, dato):
+def billettKjopNine(kundeNr, referanseNr, dato): #må definere egne funksjoner siden likte ikke at disse ble delt over filer tydligvis
     c.execute('INSERT INTO BilettKjop(ReferanseNr, Tidspunkt, KundeNr) VALUES(:ReferanseNr, :Tidspunkt, :KundeNr)', {"ReferanseNr":referanseNr, "Tidspunkt": dato, "KundeNr":kundeNr})
     referanseNr += 1 
 
