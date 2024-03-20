@@ -1,5 +1,4 @@
 import sqlite3
-import datetime
 from queries import skuespillereIStykkerQuery, forestillingerRangertQuery, forestillingerPaaDatoQuery
 con = sqlite3.connect("teater.db")
 c = con.cursor()
