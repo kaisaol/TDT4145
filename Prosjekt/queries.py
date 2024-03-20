@@ -20,13 +20,20 @@ JOIN Teaterstykke ON RolleIAkt.StykkeID = Teaterstykke.StykkeID
 ORDER BY Teaterstykke.Navn, Ansatt.Navn, Rolle.Rollenavn;
 """
 forestillingerPaaDatoQuery = """
-    SELECT Forestilling.Tidspunkt, Teaterstykke.Navn, COUNT(Billett.BillettID) as SoldTickets
-    FROM Forestilling
-    JOIN Teaterstykke ON Forestilling.StykkeID = Teaterstykke.StykkeID
-    LEFT JOIN BilettKjop ON BilettKjop.Tidspunkt = Forestilling.Tidspunkt
-    LEFT JOIN Billett ON Billett.ReferanseNr = BilettKjop.ReferanseNr
-    WHERE DATE(Forestilling.Tidspunkt) = ?
-    GROUP BY Forestilling.Tidspunkt, Teaterstykke.Navn
+ SELECT 
+        f.Tidspunkt, 
+        ts.Navn AS StykkeNavn, 
+        COUNT(b.BillettID) AS SoldTickets
+    FROM 
+        Forestilling AS f
+    JOIN 
+        Teaterstykke AS ts ON f.StykkeID = ts.StykkeID
+    LEFT JOIN 
+        Billett AS b ON f.SalID = b.SalID
+    WHERE 
+        DATE(f.Tidspunkt) = ?
+    GROUP BY 
+        f.Tidspunkt, ts.Navn;
     """
 forestillingerRangertQuery = """
 SELECT

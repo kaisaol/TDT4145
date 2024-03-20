@@ -1,16 +1,25 @@
-# def forestillingerPaaDato(dato): #brukstilfelle 4
-#     c.execute(forestillingerPaaDatoQuery, (dato,))
-#     performances = c.fetchall()
-    
-#     return performances
+import sqlite3
+from datetime import datetime
+from queries import forestillingerPaaDatoQuery
+con = sqlite3.connect("teater.db")
+c = con.cursor()
+def forestillingerPaaDato(dato): #brukstilfelle 4
 
-# if __name__ == "__main__":
-#     date_input = input("Sett inn dato på formatet (YYYY-MM-DD): ")
-#     try:
-#         datetime.strptime(date_input, "%Y-%m-%d")
-#         performances = forestillingerPaaDato(date_input)
-#         for performance in performances:
-#             print(f"Tid: {performance[0]}, Stykke: {performance[1]}, Solgte billetter: {performance[2]}")
-#     except ValueError:
-#         print("Ugyldig dato-format. Vennligst bruk YYYY-MM-DD.")
-#     #her må jeg legge inn del to med antall solgte billetter!!!
+    c.execute(forestillingerPaaDatoQuery, (dato,))
+    performances = c.fetchall()
+    con.close()
+    return performances
+
+if __name__ == "__main__":
+    date_input = input("Skriv inn dato på formatet YYYY-MM-DD: ")
+    try:
+        _ = datetime.strptime(date_input, "%Y-%m-%d")
+        print(f"Søker på dato: {date_input}")  # Debugging output
+        performances = forestillingerPaaDato(date_input)
+        if performances:
+            for performance in performances:
+                print(f"Tidspunkt: {performance[0]}, Stykke: {performance[1]}, Solgte billetter: {performance[2]}")
+        else:
+            print("Ingen forestillinger funnet for denne datoen.")
+    except ValueError:
+        print("Ugyldig dato-format. Vennligst bruk formatet YYYY-MM-DD.")

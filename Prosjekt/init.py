@@ -65,6 +65,20 @@ def main():
         #Teaterstykker
         c.execute('INSERT INTO Teaterstykke(StykkeID, Navn, StartDato) VALUES(1, "Kongsemnene", "2024-02-01")')
         c.execute('INSERT INTO Teaterstykke VALUES(2, "Stoerst av alt er kjaerligheten", "2024-02-01")')
+        #Forestillinger
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-01 19:00:00", 1, 1)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-02 19:00:00", 1, 1)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-03 19:00:00", 1, 1)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-05 19:00:00", 1, 1)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-06 19:00:00", 1, 1)')
+
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-03 18:30:00", 2, 2)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-06 18:30:00", 2, 2)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-07 18:30:00", 2, 2)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-12 18:30:00", 2, 2)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-13 18:30:00", 2, 2)')
+        c.execute('INSERT INTO Forestilling(Tidspunkt, SalID, StykkeID) VALUES("2024-02-14 18:30:00", 2, 2)')
+        
 
         #ANSATTE
         #TelefonNr og Epost var ikke tilgjengelig for mange av de ansatte, saa SQL maa endres. Bruker NULL
