@@ -20,7 +20,7 @@ def aleredeKjopt():
     fileTwo = "txtFiles/gamle-scene.txt"
 
     resultH = getAreaWithRow(fileOne)
-    dateOne = getData(fileOne)
+    dateOne = getData(fileOne) + " 19:00:00"
     mainStageArea = ["Parkett", "Galleri"]
     countH = 1
     refNum = next(number_iter)
@@ -38,7 +38,7 @@ def aleredeKjopt():
                 countH += 1
     
     resultG = getAreaWithRow(fileTwo)
-    dateTwo = getData(fileTwo)
+    dateTwo = getData(fileTwo) + " 18:30:00"
     refNum = next(number_iter)
     billettKjop(1, refNum)
 
