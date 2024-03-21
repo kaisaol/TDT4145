@@ -2,7 +2,7 @@ import sqlite3
 from queries import skuespillereISammeAktQuery
 con = sqlite3.connect("teater.db")
 c = con.cursor()
-def skuespillereISammeAkt(skuespillernavn): #brukstilfelle 7
+def skuespillereISammeAkt(skuespillernavn):
     c.execute(skuespillereISammeAktQuery, (skuespillernavn,))
     results = c.fetchall()
     if results:
