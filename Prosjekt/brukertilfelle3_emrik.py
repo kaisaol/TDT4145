@@ -37,7 +37,7 @@ def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegr
     billettKjopNine(1, newRef, forestilling_dato) #nytt kjøp for standarbruker som alle 9 biletter går på
     n = 1 #counter
     
-    for i in ledigeStoler:
+    for i in ledigeStoler: #tar de første 9 stolene
         if n >= 9:
             break
         kjopBillettNine(i, radNr, forestilling_dato, omrade, newTick, 2, newRef) #kjøper 9 biletter
@@ -47,7 +47,7 @@ def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegr
     c.execute(""" 
     SELECT Pris FROM TypeBillett
     WHERE StykkeID = 2 AND KundegruppeID = "O"
-    """) #fikser total billett pris
+    """) #henter billett pris
 
     pris = c.fetchone()[0] * 9 #Henter riktig pris
     
@@ -60,7 +60,7 @@ def billettKjopNine(kundeNr, referanseNr, dato): #må definere egne funksjoner s
     c.execute('INSERT INTO BilettKjop(ReferanseNr, Tidspunkt, KundeNr) VALUES(:ReferanseNr, :Tidspunkt, :KundeNr)', {"ReferanseNr":referanseNr, "Tidspunkt": dato, "KundeNr":kundeNr})
     referanseNr += 1 
 
-def kjopBillettNine(stolNr, radNr, tidspunkt, omrade, billettId, salId, refNr):
+def kjopBillettNine(stolNr, radNr, tidspunkt, omrade, billettId, salId, refNr): #igjen, må defineres i denne filen
     c.execute('INSERT INTO Billett(BillettID, ReferanseNr, Tidspunkt, StolNr, RadNr, Omrade, SalID) VALUES(:BillettID, :ReferanseNr, :Tidspunkt, :StolNr, :RadNr, :Omrade, :SalID)', {"BillettID":billettId, "ReferanseNr":refNr, "Tidspunkt": tidspunkt, "StolNr":stolNr, "RadNr":radNr, "Omrade":omrade, "SalID":salId})
     billettId += 1
 
