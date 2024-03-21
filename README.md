@@ -9,9 +9,9 @@ I prosjektet foregår all kommunikasjon mellom bruker og programmet i terminalen
 
 ### Steg for å teste prosjektet
 
-1. Dersom [teater.db](./Prosjekt/teater.db)-filen ikke eksisterer; Kjør [init.py](./Prosjekt/init.py) for å opprette databasen og legge til all tilhørende data.
+1. Kjør [init.py](./Prosjekt/init.py) for å opprette databasen og legge til all tilhørende data. Dersom [teater.db](./Prosjekt/teater.db)-filen ikke eksisterer vil denne opprettes, og dersom den eksisterer vil os.remove() funksjonen slette eksisterende, og opprette på nytt. Dette sikrer riktig oppsett ved start. 
 2. Kjør [teater.py](./Prosjekt/teater.py) for å teste brukshistoriene (2,3,4,5,6,7).
-3. Dersom du ønsker å fjerne endringer du har gjort; Slett [teater.db](./Prosjekt/teater.db)-filen og gjenta steg 1.
+3. Dersom du ønsker å fjerne endringer du har gjort; Kjør [init.py](./Prosjekt/init.py)-filen på nytt for å opprette databasen på nytt.
 
 ---
 
