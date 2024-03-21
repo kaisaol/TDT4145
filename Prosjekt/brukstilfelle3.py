@@ -1,3 +1,5 @@
+#forsøk op oppgave 3
+
 import sqlite3
 from queries import skuespillereIStykkerQuery, forestillingerRangertQuery, forestillingerPaaDatoQuery
 con = sqlite3.connect("teater.db")
@@ -18,41 +20,50 @@ def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegr
     result = c.fetchone()
     radNr, omrade, amountLedigeStoler, ledigeStoler = result
     ledigeStoler = ledigeStoler.split(",")
-    print(radNr, omrade, amountLedigeStoler, ledigeStoler)
-    exit(1)
 
-    # 3 & 4. Gruppere ledige stoler etter RadNr og finne en rad med minst 9 ledige stoler
-    rad_med_ledige_stoler = {}
-    for stol in ledige_stoler:
-        rad_nr = stol[1]
-        rad_med_ledige_stoler.setdefault(rad_nr, []).append(stol)
+    c.execute("SELECT max(ReferanseNr) FROM BilettKjop")
+    result1 = c.fetchone() #finner forrige ref nummer
 
-    rad_for_kjop = None
-    for rad_nr, stoler in rad_med_ledige_stoler.items():
-        if len(stoler) >= antall_billetter:
-            rad_for_kjop = rad_nr
+    if result1 is not None:
+        newRef = result1[0] + 1 #lager variabel så lenge ikke null
+
+    c.execute("SELECT max(BillettID) FROM Billett")
+    result2 = c.fetchone() #forrige billett nr
+
+    if result2 is not None:
+        newTick = result2[0] + 1 #så lenge ikke null
+    #print(radNr, omrade, amountLedigeStoler, ledigeStoler)
+    bought = 0
+    billettKjopNine(1, newRef, forestilling_dato) #nytt kjøp for standarbruker som alle 9 biletter går på
+    n = 1 #counter
+    
+    for i in ledigeStoler: #tar de første 9 stolene
+        if n > 9:
             break
+        kjopBillett(i, radNr, forestilling_dato, omrade, newTick, 2, newRef) #kjøper 9 biletter
+        newTick += 1
+        n += 1
 
-    if not rad_for_kjop:
-        print("Fant ikke en rad med nok ledige stoler.")
-        return
+    c.execute(""" 
+    SELECT Pris FROM TypeBillett
+    WHERE StykkeID = 2 AND KundegruppeID = "O"
+    """) #henter billett pris for riktig kundegruppe
 
-    # 5. Kjøpe billetter for stolene på valgte rad
-    valgte_stoler = rad_med_ledige_stoler[rad_for_kjop][:antall_billetter]
-    for stol in valgte_stoler:
-        referanse_nr = f"{forestilling_dato.replace('-', '')}{stykkeID}{stol[1]}{stol[0]}"
-        c.execute('INSERT INTO BilettKjop (ReferanseNr, Tidspunkt, KundeNr) VALUES (:referanseNr, :tidspunkt, :kundeNr)',
-                  {"referanseNr": referanse_nr, "tidspunkt": forestilling_dato, "kundeNr": 1})
-        c.execute('INSERT INTO Billett (ReferanseNr, StolNr, RadNr, Omrade, SalID) VALUES (:referanseNr, :stolNr, :radNr, :omrade, :salID)',
-                  {"referanseNr": referanse_nr, "stolNr": stol[0], "radNr": stol[1], "omrade": stol[2], "salID": stol[3]})
-
-    # 6. Beregne totalprisen for billettene
-    c.execute('SELECT Pris FROM TypeBillett WHERE KundegruppeID = :kundegruppeID AND StykkeID = :stykkeID', {"kundegruppeID": kundegruppeID, "stykkeID": stykkeID})
-    pris_per_billett = c.fetchone()[0]
-    totalpris = pris_per_billett * antall_billetter
+    pris = c.fetchone()[0] * 9 #Henter riktig pris og ganger med 9
+    
+    print("Prisen for " , antall_billetter , " voksen billeter er", pris)
 
     con.commit()
-    print(f"Kjøpte {antall_billetter} billetter til 'Størst av alt er kjærligheten' den {forestilling_dato}. Totalpris: {totalpris} NOK.")
+    
+
+
+def billettKjopNine(kundeNr, referanseNr, dato): #må definere egne funksjoner siden likte ikke at disse ble delt over filer tydligvis
+    c.execute('INSERT INTO BilettKjop(ReferanseNr, Tidspunkt, KundeNr) VALUES(:ReferanseNr, :Tidspunkt, :KundeNr)', {"ReferanseNr":referanseNr, "Tidspunkt": dato, "KundeNr":kundeNr})
+    referanseNr += 1 
+
+def kjopBillett(stolNr, radNr, tidspunkt, omrade, billettId, salId, refNr): #igjen, må defineres i denne filen
+    c.execute('INSERT INTO Billett(BillettID, ReferanseNr, Tidspunkt, StolNr, RadNr, Omrade, SalID) VALUES(:BillettID, :ReferanseNr, :Tidspunkt, :StolNr, :RadNr, :Omrade, :SalID)', {"BillettID":billettId, "ReferanseNr":refNr, "Tidspunkt": tidspunkt, "StolNr":stolNr, "RadNr":radNr, "Omrade":omrade, "SalID":salId})
+    billettId += 1
 
 if __name__ == '__main__':
     kjopNiBilletter()
