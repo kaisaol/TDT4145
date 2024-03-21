@@ -158,7 +158,7 @@ hvilke skuespilllere de har spilt med i samme akt. Skriv ut navn på begge og
 hvilket skuespill det skjedde.
 
 **Løsning**  
-Vi har løst brukerhistorien i [brukstilfelle7.py](./Prosjekt/brukstilfelle7.py)-filen. Programmet tar inn navnet på en skuespiller og printer ut alle skuespillere denne personen har spilt med, sammen med tilhørende stykker.
+Vi har løst brukerhistorien i [brukstilfelle7.py](./Prosjekt/brukstilfelle7.py)-filen. Programmet tar inn navnet på en skuespiller (eks Arturo Scotti, rett frem uten "fnutter") og printer ut alle skuespillere denne personen har spilt med, sammen med tilhørende stykker.
 
 For å kjøre programmet:
 ```py
