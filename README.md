@@ -9,7 +9,7 @@ I prosjektet foregår all kommunikasjon mellom bruker og programmet i terminalen
 
 ### Steg for å teste prosjektet
 
-1. Sørg for at du er i riktig i riktig filsti. Fra start må du inn i TDT4145/Prosjekt. Vi anbefaler utvidelsen SQLite viewer for å kunne enkelt lese fra databasefilen.
+1. Sørg for at du er i riktig filsti. Fra start må du inn i TDT4145/Prosjekt. Vi anbefaler utvidelsen SQLite viewer for å kunne enkelt lese fra databasefilen.
 
 ```py
 cd Prosjekt/
@@ -19,7 +19,7 @@ cd Prosjekt/
 ```py
 python3 init.py
 ```
-3. Kjør deretter brukstilfeller 2-7 for å teste alle brukstilfellene brukshistoriene. Noen av brukstilfellene krever kjøring av [brukstilfelle2.py](./Prosjekt/brukstilfelle2.py) først, så denne bør kjøres først.
+3. Kjør deretter brukstilfeller 2-7 for å teste alle brukstilfellene. Noen av brukstilfellene krever kjøring av [brukstilfelle2.py](./Prosjekt/brukstilfelle2.py) først, så denne bør kjøres først.
 ````
 python3 brukstilfelle2.py
 ````
