@@ -5,14 +5,28 @@ Studenter som har medvirket til leveransen: Kaisa Øyre Larsen, Emrik Sjølie Mo
 
 ## **Generell informasjon**
 
-I prosjektet foregår all kommunikasjon mellom bruker og programmet i terminalen.
+I prosjektet foregår all kommunikasjon mellom bruker og programmet i terminalen. Vi har brukt python versjon 3.9 og nyere, så dette er nødvendig for å at alt skal kjøres.
 
 ### Steg for å teste prosjektet
 
-1. Kjør [init.py](./Prosjekt/init.py) for å opprette databasen og legge til all tilhørende data. Dersom [teater.db](./Prosjekt/teater.db)-filen ikke eksisterer vil denne opprettes, og dersom den eksisterer vil os.remove() funksjonen slette eksisterende, og opprette på nytt. Dette sikrer riktig oppsett ved start. 
-2. Kjør [teater.py](./Prosjekt/teater.py) for å teste brukshistoriene (2,3,4,5,6,7).
-3. Dersom du ønsker å fjerne endringer du har gjort; Kjør [init.py](./Prosjekt/init.py)-filen på nytt for å opprette databasen på nytt.
+1. Sørg for at du er i riktig i riktig filsti. Fra start må du inn i TDT4145/Prosjekt. Vi anbefaler utvidelsen SQLite viewer for å kunne enkelt lese fra databasefilen.
 
+```py
+cd Prosjekt/
+```
+
+2. Kjør [init.py](./Prosjekt/init.py) for å opprette databasen og legge til all tilhørende data. Dersom [teater.db](./Prosjekt/teater.db)-filen ikke eksisterer vil denne opprettes, og dersom den eksisterer vil os.remove() funksjonen slette eksisterende, og opprette på nytt. Dette sikrer riktig oppsett ved start. 
+```py
+python3 init.py
+```
+3. Kjør deretter brukstilfeller 2-7 for å teste alle brukstilfellene brukshistoriene. Noen av brukstilfellene krever kjøring av [brukstilfelle2.py](./Prosjekt/brukstilfelle2.py) først, så denne bør kjøres først.
+````
+python3 brukstilfelle2.py
+````
+4. Dersom du ønsker å fjerne endringer du har gjort; Kjør [init.py](./Prosjekt/init.py)-filen på nytt for å opprette databasen på nytt.
+```py
+python3 init.py
+```
 ---
 
 ### **Brukstillfelle 1**
@@ -37,6 +51,9 @@ Vi har løst brukerhistorien i [init.py](./Prosjekt/init.py)-filen. Ved å kjør
 Merknad:
 I oppgavefilen var "Guttorm Ingesson", oppført som en rolle. Da denne rollen ikke sto oppført på teaterets nettsider, er den heller ikke med i databasen. Dette fordi vi ikke kan koble roller til skuespillere, om det ikke er oppført.
 
+```py
+python3 init.py
+```
 ---
 
 ### **Brukstilfelle 2**
@@ -51,8 +68,13 @@ Her er det ok at kjøper av de allerede
 solgte stolene er en standardbruker. dvs. samme forhåndsinnsatte bruker
 
 **Løsning**  
-Vi har løst brukerhistorien i [init.py](./Prosjekt/init.py)-filen, under #BRUKSHISTOIRE 2 (Er samme som stoler i 1, men må ta hensyn til Datolinja og hvorvidt 0,1,X)
-**Forklar hva som skjer**
+Vi har løst brukerhistorien i [brukstilfelle2.py](./Prosjekt/brukstilfelle2.py)-filen. 
+Programmet leser fra tekstfilene i txtFiles mappa, og legger inn billetkjøp i henhold til databasemodellen for hver "1" det kommer over.
+
+For å kjøre programmet:
+```py
+python3 brukstilfelle2.py
+```
 
 ---
 
@@ -69,37 +91,12 @@ ikke trenger å lage.
 Denne funksjonen skal implementeres i Python og SQL.
 
 **Løsning**  
-Vi har løst brukerhistorien i [teater.py](./Prosjekt/teater.py)-filen.
+Vi har løst brukerhistorien i [brukstilfelle3.py](./Prosjekt/brukstilfelle3.py)-filen. Programmet kjører først en spørring for å hente ut en rad med 9 eller flere ledige seter, første "ledige" rad blir valgt. Deretter registreres kjøp i henhold til databasestrukturen på 9 av disse billettene. Vi har registrert dette kjøpet på standardbrukeren, for enkelhetens skyld. 
 
-Se funksjon "kjoepeNiBilletter()"
-
-PSEUDO TANKEGANG
-1. Hente ut stolene som ligger i billettabellen (altså "er solgt")
-2. Ta disse ut av Stol tabellen
-2. Resultattabellen av dette er "de ledige stolene"
-3. GroupBy resterenede stoler i resultattabellen på Rad
-4. Count for hver rad og sjekk om >= 9
-5. Kjøp første tilgjenglige (øverst i tabellen) med kjøp billett funksjonen
-6. Hvordan løse pris
-
-SELECT radnr, COUNT(*) as antall_stoler
-FROM stoler (resultattabellen med ledige stoler)
-GROUP BY radnr
-HAVING COUNT(*) >= 9;
-KJØP-billetter-funksjon (OG ENDRE Database tilhørende) (Her vil den globale Billett-tabellen endres)
-
-*Løse pris
-
-
-
-Implementasjon Python:
-
-Implementasjon SQL:
-
-Hvordan initialisere funksjon
-
-Begrensninger/annet:
-
+For å kjøre programmet:
+```py
+python3 brukstilfelle3.py
+```
 
 ---
 
@@ -111,7 +108,12 @@ en dato og skriver ut hvilke forestillinger som finnes på denne datoen og liste
 opp hvor mange billetter (dvs. stoler) som er solgt. Ta også med forestillinger
 hvor det ikke er solgt noen billetter.
 **Løsning**  
-Vi har løst brukerhistorien i [teater.py](./Prosjekt/teater.py)-filen. Ved å kjøre filen og skrive inn 'T' for 'Søk etter togruter'. Man skriver så inn en startstasjon og en sluttstasjon, ønsket data og klokkeslett. Det vil så bli skrevet ut informasjon om de togrutene som stemmer overens med input.
+Vi har løst brukerhistorien i [brukstilfelle4.py](./Prosjekt/brukstilfelle4.py)-filen. Programmet tar inn en input på dato-format (YYYY-MM-DD) og lister opp alle registrerte forestillinger som er på denne datoen, uavhengig av tidpunkt, og med tilhørende antall solgte billetter som kan være null. 
+
+For å kjøre programmet:
+```py
+python3 brukstilfelle4.py
+```
 
 ---
 
@@ -122,7 +124,12 @@ Vi ønsker å lage et query i SQL som finner hvilke (navn på) skuespillere som
 opptrer i de forskjellige teaterstykkene. Skriv ut navn på teaterstykke, navn på skuespiller og rolle.
 
 **Løsning**  
-Vi har løst brukerhistorien i [teater.py](./tog.py)-filen. Kjør filen og skriv inn 'R' for 'Registerer deg i kunderegisteret'. Man skriver så inn fornavn, etternavn, epost og telefonnummer for å bli registert som en kunde.
+Vi har løst brukerhistorien i [brukstilfelle5.py](./Prosjekt/brukstilfelle5.py)-filen. Programmet tar utgangspunkt i query lagt inn i [queries.py](./Prosjekt/queries.py) og printer ut alle registrerte skuespillere med tilhørende roller og teaterstykker. 
+
+For å kjøre programmet:
+```py
+python3 brukstilfelle5.py
+```
 
 ---
 
@@ -134,7 +141,12 @@ best. Skriv ut navn på forestilling og dato og antall solgte plasser sortert p�
 antall plasser i synkende rekkefølge.
 
 **Løsning**  
-Vi har løst brukerhistorien i [init.py](./init.py)-filen.
+Vi har løst brukerhistorien i [brukstilfelle6.py](./Prosjekt/brukstilfelle6.py)-filen. Programmet tar utgangspunkt i query lagt inn i [queries.py](./Prosjekt/queries.py) og printer ut alle forestillinger med tilhørende dato og solgte plassert, rangert etter antall stolgte plasser. 
+
+For å kjøre programmet:
+```py
+python3 brukstilfelle6.py
+```
 
 ---
 
@@ -146,53 +158,9 @@ hvilke skuespilllere de har spilt med i samme akt. Skriv ut navn på begge og
 hvilket skuespill det skjedde.
 
 **Løsning**  
-Vi har løst brukerhistorien i [teater.py](./tog.py)-filen. Kjør filen og skriv inn 'F' for 'Finn informasjon om fremtidige reiser'. Man skriver så inn fornavn og etternavn. Man vil så få ut informasjon om fremtidige reiser.
+Vi har løst brukerhistorien i [brukstilfelle7.py](./Prosjekt/brukstilfelle7.py)-filen. Programmet tar inn navnet på en skuespiller og printer ut alle skuespillere denne personen har spilt med, sammen med tilhørende stykker.
 
-## Ideer og tips FJERN DETTE NÅR FERDIG
-
-- Lese gjennom fila, når det ikke er 0 eller 1 som første, og ikke dato, lagre som keyword (typ galleri) i dictionary til en tom liste
-
-Pseudokode:
-
+For å kjøre programmet:
 ```py
-result = {}  # a dictionary
-område = None
-for line in lines:
-    if startswith(dato):
-        continue
-
-    if not startswith(a number):
-        område = line
-        result[område] = []
-        continue
-
-    result[område].insert(0, line)
-
-# dette er for hovedscenen siden den fortsetter på setetallene når man kommer til en ny rad i motsetning til gamle scene.
-#må passe på at parkett på hovedscenen, lista for parkett, må itereres gjennom før galleri
-
-# dette funker for hovedscenen ish
-count = 1
-områder_hovedscenen = ["Parkett", "Galleri"]  # viktig at disse har riktig rekkefølge
-for område in områder_hovedscenen:
-    lines = result[område]
-    for rad_nummer, line in enumerate(lines, 1):
-        for seat in line:
-            if char != "x":
-                con.execute(insert setedetaljer)
-
-            count += 1
-
-# dette funker for gamle scene ish
-for område, lines in result.items():
-    for rad_nummer, line in enumerate(lines, 1):
-        count = 1
-        for seat in line:
-            if char != "x":
-                con.execute(insert setedetaljer)
-
-            count += 1
-
-
+python3 brukstilfelle7.py
 ```
-
