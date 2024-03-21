@@ -2,7 +2,7 @@ import sqlite3
 from queries import forestillingerRangertQuery
 con = sqlite3.connect("teater.db")
 c = con.cursor()
-def forestillingerRangert(): #brukstilfelle 6
+def forestillingerRangert():
         c.execute(forestillingerRangertQuery)
         resultater = c.fetchall()
         con.close()

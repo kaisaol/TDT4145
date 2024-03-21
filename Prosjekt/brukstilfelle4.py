@@ -14,7 +14,7 @@ if __name__ == "__main__":
     date_input = input("Skriv inn dato på formatet YYYY-MM-DD: ")
     try:
         _ = datetime.strptime(date_input, "%Y-%m-%d")
-        print(f"Søker på dato: {date_input}")  # Debugging output
+        print(f"Søker på dato: {date_input}")  
         performances = forestillingerPaaDato(date_input)
         if performances:
             for performance in performances:
@@ -24,4 +24,3 @@ if __name__ == "__main__":
     except ValueError:
         print("Ugyldig dato-format. Vennligst bruk formatet YYYY-MM-DD.")
 
-##MÅ FIKSES: den antar nå at alle forestillingene av samme stykke har solgt samme antall billetter, så må fikse logikken for dette
