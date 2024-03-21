@@ -35,6 +35,9 @@ def kjopNiBilletter(forestilling_dato="2024-02-03 18:30:00", stykkeID=2, kundegr
     #print(radNr, omrade, amountLedigeStoler, ledigeStoler)
     bought = 0
     billettKjopNine(1, newRef, forestilling_dato) #nytt kjøp for standarbruker som alle 9 biletter går på
+    c.execute("SELECT Navn FROM Kunde WHERE KundeNr=1")
+    kjøper = c.fetchone()[0]
+    print(kjøper, "har kjøpt 9 billetter")
     n = 1 #counter
     
     for i in ledigeStoler: #tar de første 9 stolene
